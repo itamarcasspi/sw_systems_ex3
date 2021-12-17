@@ -88,18 +88,18 @@ int removeValue(char c)
     struct Node *temp_prev = temp;
     while (temp != NULL)
     {
-        if(temp == head && temp->data == c)
+        if (temp == head && temp->data == c)
         {
             backRemove();
             return 1;
         }
-        if(temp->next==NULL && temp->data==c)
+        if (temp->next == NULL && temp->data == c)
         {
             temp_prev->next = NULL;
             return 1;
         }
 
-        if(temp->data == c)
+        if (temp->data == c)
         {
             temp_prev->next = temp->next;
             return 1;
@@ -156,11 +156,10 @@ int totalValue()
     return ans;
 }
 
-
 int same_word_in_athbash(char *original, char *athbash_word)
 {
-    if(find_gem_value(*athbash_word)==0)
-    {   
+    if (find_gem_value(*athbash_word) == 0)
+    {
         return 0;
     }
     char *t1 = original, *t2 = athbash_word;
@@ -184,12 +183,11 @@ int same_word_in_athbash(char *original, char *athbash_word)
 void loadWord(char *word)
 {
     head = NULL;
-    for(char *word_runner = word; *word_runner!='\0';word_runner++)
+    for (char *word_runner = word; *word_runner != '\0'; word_runner++)
     {
         frontInsert(*word_runner);
     }
 }
-
 
 //Actual functions:
 void gem_seq(char *word, char *text)
@@ -202,7 +200,7 @@ void gem_seq(char *word, char *text)
         word_value += find_gem_value(*i);
     }
     int printed = 0;
-    for (char *i = text; *i != '~' && *i!='\0';)
+    for (char *i = text; *i != '~' && *i != '\0';)
     {
         if (head != NULL && find_gem_value(head->data) == 0)
         {
@@ -210,14 +208,13 @@ void gem_seq(char *word, char *text)
         }
         else if (totalValue() == word_value)
         {
-            if(printed>0)
+            if (printed > 0)
             {
                 printf("~");
             }
             seqPrint();
             backRemove();
             printed++;
-            
         }
         else if (totalValue() < word_value)
         {
@@ -230,15 +227,15 @@ void gem_seq(char *word, char *text)
         }
     }
     if (totalValue() == word_value)
+    {
+        if (printed > 0)
         {
-            if(printed>0)
-            {
-                printf("~");
-            }
-            seqPrint();
-            backRemove();
-            printed++;
+            printf("~");
         }
+        seqPrint();
+        backRemove();
+        printed++;
+    }
     printf("\n");
 }
 
@@ -247,9 +244,9 @@ void athbash_seq(char *word, char *text)
     printf("Atbash Sequences: ");
     head = NULL;
     int printed = 0;
-    for (char *i = text; *i != '~'&& *i!='\0'; i++)
-    {   
-        
+    for (char *i = text; *i != '~' && *i != '\0'; i++)
+    {
+
         int word_len = strlen(word);
         int current_len = 0;
         for (char *index = i; *index != '~' && word_len > 0;)
@@ -271,7 +268,7 @@ void athbash_seq(char *word, char *text)
         strncpy(current_word, i, current_len);
         if (same_word_in_athbash(word, current_word) > 0)
         {
-            if(printed>0)
+            if (printed > 0)
             {
                 printf("~");
             }
@@ -284,7 +281,7 @@ void athbash_seq(char *word, char *text)
         reverseString(input_word_reversed);
         if (same_word_in_athbash(input_word_reversed, current_word) > 0)
         {
-            if(printed>0)
+            if (printed > 0)
             {
                 printf("~");
             }
@@ -295,14 +292,12 @@ void athbash_seq(char *word, char *text)
     printf("\n");
 }
 
-
-
 void anagram_seq(char *word, char *text)
 {
     head = NULL;
     int printed = 0;
     printf("Anagram Sequences: ");
-    for(char *text_runner = text; *text_runner!='\0';text_runner++)
+    for (char *text_runner = text; *text_runner != '\0'; text_runner++)
     {
         loadWord(word);
         int current_len = 0;
@@ -310,20 +305,20 @@ void anagram_seq(char *word, char *text)
         {
             continue;
         }
-        
-        for (char * current_word = text_runner; *current_word != '\0'; current_word++)
+
+        for (char *current_word = text_runner; *current_word != '\0'; current_word++)
         {
-            if(totalValue()==0)
+            if (totalValue() == 0)
             {
                 break;
             }
-            if(*current_word=='\t' || *current_word == '\n' || *current_word == ' ')
+            if (*current_word == '\t' || *current_word == '\n' || *current_word == ' ')
             {
                 current_len++;
                 continue;
             }
-            int contains = removeValue(*current_word)>0;
-            if(contains>0)
+            int contains = removeValue(*current_word) > 0;
+            if (contains > 0)
             {
                 current_len++;
                 continue;
@@ -333,27 +328,17 @@ void anagram_seq(char *word, char *text)
                 break;
             }
         }
-        if(totalValue()==0)
+        if (totalValue() == 0)
+        {
+            char *current_word_to_print = malloc(sizeof(WORD));
+            strncpy(current_word_to_print, text_runner, current_len);
+            if (printed > 0)
             {
-                char *current_word_to_print = malloc(sizeof(WORD));
-                strncpy(current_word_to_print, text_runner, current_len);
-                if(printed>0)
-                {
-                    printf("~");
-                }
-                printf("%s",current_word_to_print);
-                printed++;
+                printf("~");
             }
-    
-        
+            printf("%s", current_word_to_print);
+            printed++;
+        }
     }
-    printf("\n");
 }
 
-void all_3(char *word, char *text)
-{
-    gem_seq(word,text);
-    athbash_seq(word,text);
-    anagram_seq(word,text);
-
-}
