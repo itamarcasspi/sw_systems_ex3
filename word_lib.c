@@ -192,12 +192,17 @@ void loadWord(char *word)
 //Actual functions:
 void gem_seq(char *word, char *text)
 {
+    
     printf("Gematria Sequences: ");
     head = NULL;
     int word_value = 0;
     for (char *i = word; *i != '\0'; i++)
     {
         word_value += find_gem_value(*i);
+    }
+    if(word_value==0)
+    {
+        return;
     }
     int printed = 0;
     for (char *i = text; *i != '~' && *i != '\0';)
