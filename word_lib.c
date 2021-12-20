@@ -234,7 +234,7 @@ void gem_seq(char *word, char *text)
     }
     while (head != NULL)
     {
-        if (totalValue() == word_value)
+        if (totalValue() == word_value && find_gem_value(head->data)>0)
         {
             if (printed > 0)
             {
