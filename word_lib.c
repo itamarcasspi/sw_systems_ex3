@@ -192,7 +192,7 @@ void loadWord(char *word)
 //Actual functions:
 void gem_seq(char *word, char *text)
 {
-    
+
     printf("Gematria Sequences: ");
     head = NULL;
     int word_value = 0;
@@ -200,8 +200,9 @@ void gem_seq(char *word, char *text)
     {
         word_value += find_gem_value(*i);
     }
-    if(word_value==0)
+    if (word_value == 0)
     {
+        printf("\n");
         return;
     }
     int printed = 0;
@@ -231,15 +232,22 @@ void gem_seq(char *word, char *text)
             backRemove();
         }
     }
-    if (totalValue() == word_value)
+    while (head != NULL)
     {
-        if (printed > 0)
+        if (totalValue() == word_value)
         {
-            printf("~");
+            if (printed > 0)
+            {
+                printf("~");
+            }
+            seqPrint();
+            backRemove();
+            printed++;
         }
-        seqPrint();
-        backRemove();
-        printed++;
+        else
+        {
+            backRemove();
+        }
     }
     printf("\n");
 }
@@ -346,4 +354,3 @@ void anagram_seq(char *word, char *text)
         }
     }
 }
-
